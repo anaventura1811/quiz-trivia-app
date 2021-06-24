@@ -11,27 +11,22 @@ const INITIAL_STATE = {
 const timer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
   case START_TIMER:
-    return Object.assign(
-      {},
-      state,
-      { 
-        start_time: action.start_time,
-        seconds: action.start_time,
-        status: 'counting_down'
-      }
-    );
+    return {
+      ...state,
+      start_time: action.start_time,
+      seconds: action.start_time,
+      status: 'counting_down',
+    };
   case STOP_TIMER:
-    return Object.assign(
-      {},
-      state,
-      { status: 'paused' }
-    );
+    return {
+      ...state,
+      status: 'paused',
+    }
   case TICK:
-    return Object.assign(
-      {},
-      state,
-      { seconds: (action.seconds - 1) }
-    )
+    return {
+      ...state,
+      seconds: action.seconds - 1,
+    };
     default:
       return state;
   }
