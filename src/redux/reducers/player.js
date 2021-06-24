@@ -3,8 +3,9 @@ import { PLAYER_LOGIN, PLAYER_NAME, PLAYER_IMAGE } from '../actions';
 const INITIAL_STATE = {
   email: '',
   playerName: '',
-  score: '',
   image: '',
+  score: '',
+  assertions: 0,
 }
 
 const player = (state = INITIAL_STATE, { type, payload }) => {
