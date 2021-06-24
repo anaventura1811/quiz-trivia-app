@@ -14,6 +14,15 @@ function Login() {
     handleToken();
   }, []);
 
+  useEffect(() => {
+    const emailRegex = /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/gm;
+    if (user.trim() !== '' && emailRegex.test(email)) {
+      setButtonDisabled(false);
+    } else {
+      setButtonDisabled(true);
+    }
+  }, [user, email])
+
   async function handleToken() {
     const request = await fetch('https://opentdb.com/api_token.php?command=request');
     const data = await request.json();
@@ -28,25 +37,6 @@ function Login() {
     history.push('/game');
   }
 
-  function verifyInput() {
-    const emailRegex = /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/gm;
-    return user.trim() !== '' && emailRegex.test(email);
-  }
-
-
-  function handleChange(event) {
-    setUser(event.target.value);
-    setEmail(event.target.value);
-    if (verifyInput()) {
-      setButtonDisabled(false);
-    } else {
-      setButtonDisabled(true);
-    }
-
-  }
-
-
-  
   return (
     <>
       <div className="login">
@@ -54,7 +44,7 @@ function Login() {
           type="text"
           name="user"
           placeholder="Digite seu nome"
-          onChange={ (event) => handleChange(event)}
+          onChange={  (event) => setUser(event.target.value) }
           value={ user }
         />
 
@@ -62,14 +52,14 @@ function Login() {
           type="text"
           name="email"
           placeholder="Digite seu email"
-          onChange={(event) => handleChange(event)}
+          onChange={(event) => setEmail(event.target.value)}
           value={ email }
         />
       </div>
       <Button
         className="btn"
         disabled={ isButtonDisabled }
-        onClick={ setTokenToStorage }
+        onClick={ (event) => setTokenToStorage(event) }
       >
         Jogar
       </Button>
